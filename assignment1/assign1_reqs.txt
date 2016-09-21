@@ -1,0 +1,7 @@
+enter comma listed items
+on click - comput {
+if #of items <= 3 : print Enjoy!
+if #of items > 3 : print Too Much!
+if #of items = 0 || "" || " " : print Please enter data first
+
+}
