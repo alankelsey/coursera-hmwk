@@ -7,6 +7,7 @@ angular.module('myFirstApp', [])
   
   $scope.lunchList = "";
   $scope.response = "";
+  //$scope.typeOut =  typeof $scope.lunchList.split(',');
 
   $scope.splitString = function(stringIn) {
 
