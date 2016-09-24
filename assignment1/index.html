@@ -21,10 +21,10 @@
          <div class="form-group">
              <button class="btn btn-default" ng-click="result(lunchList);">Check If Too Much</button>
          </div>
-         <div class="form-group message">
+         <div class="form-group message" ng-style="myBorderStyle">
            <!-- Your message can go here. -->
-           reponse {{response}}
-		
+           <span ng-style="myTextStyle">{{response}}</span>
+
 
          </div>
    </div>

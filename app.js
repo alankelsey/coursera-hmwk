@@ -9,7 +9,10 @@ angular.module('myFirstApp', [])
   $scope.lunchList = "";
   //html output
   $scope.response = "";
-
+  //response text color
+  $scope.myTextStyle = {color: 'green'};
+  //text border
+  $scope.myBorderStyle = {border : '0px solid green'};
   //function takes a string and splits on commas
   //returns counts of properties not empty or a comma
   $scope.splitString = function(stringIn) {
@@ -38,14 +41,19 @@ angular.module('myFirstApp', [])
     var count = $scope.splitString($scope.lunchList)
 
     if (count > 0 && count <= 3){
-         $scope.response = "Enjoy!";
+      $scope.myTextStyle = {color: 'green'};
+      $scope.myBorderStyle = {border : '2px solid green'};
+      $scope.response = "Enjoy!";
 
     }else if (count > 3) {
-         $scope.response = "Too Much!";
+      $scope.myTextStyle = {color: 'green'};
+      $scope.myBorderStyle = {border : '2px solid green'};
+      $scope.response = "Too Much!";
 
     }else {
-
-        $scope.response =  "Please enter data first"
+      $scope.myTextStyle = {color: 'red'};
+      $scope.myBorderStyle = {border : '2px solid red'};
+      $scope.response =  "Please enter data first"
 
     }
 
