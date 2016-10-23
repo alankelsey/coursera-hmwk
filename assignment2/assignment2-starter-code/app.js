@@ -6,14 +6,25 @@ angular.module('shoppingListCheckOff', [])
 .controller('AlreadyBoughtController', AlreadyBoughtController)
 .service('ShoppingListCheckOffService', ShoppingListCheckOffService)
 
-
 ToBuyController.$inject = ['ShoppingListCheckOffService'];
 function ToBuyController(ShoppingListCheckOffService) {
   var toBuy = this;
+  toBuy.name = "";
+  toBuy.quantity = "";
   // ShoppingListCheckOffService.addItem("apple", 2);
   // ShoppingListCheckOffService.addItem("pear", 10);
-  toBuy.items = ShoppingListCheckOffService.getItems();
 
+  toBuy.items = ShoppingListCheckOffService.getItemsToBuy();
+
+  try{
+    toBuy.buyItems = function(index, name, quantity){
+    ShoppingListCheckOffService.buyItems(index, name, quantity);
+    //console.log(index);
+    }
+  }catch(error){
+    toBuy.errorMessage = error.message;
+
+  }
   //   showList.removeItem = function (itemIndex) {
   //   ShoppingListService.removeItem(itemIndex);
   // };
@@ -28,7 +39,12 @@ function AlreadyBoughtController(ShoppingListCheckOffService) {
   var bought = this;
 
 
-  // ShoppingListService.addItem(apple, 2);
+    bought.items = ShoppingListCheckOffService.getBoughtItems();
+    //console.log(bought.items);
+
+  // console.log(bought.items);
+  // console.log("tt");
+
   // bought.items = ShoppingListCheckOffService.getItems();
   // console.log(bought.items)
 
@@ -39,32 +55,10 @@ function AlreadyBoughtController(ShoppingListCheckOffService) {
 
 function ShoppingListCheckOffService() {
   var service = this;
-  console.log("test");
 
-
-var shoppingList1 = [
-  // {
-  //   name: "Milk",
-  //   quantity: "2"
-  // },
-  // {
-  //   name: "Donuts",
-  //   quantity: "200"
-  // },
-  // {
-  //   name: "Cookies",
-  //   quantity: "300"
-  // },
-  // {
-  //   name: "Chocolate",
-  //   quantity: "5"
-  // }
-];
-var shoppingList2 = [
-
-];
+  var itemsBought = [{}];
   // List of shopping items
-  var items = [{
+  var itemsToBuy = [{
                 name:"apple",
                 quantity:"1"
               },
@@ -91,15 +85,34 @@ var shoppingList2 = [
       name: itemName,
       quantity: quantity
     };
-    items.push(item);
+    itemsBought.push(item);
   };
 
   service.removeItem = function (itemIdex) {
-    items.splice(itemIdex, 1);
+    //console.log(itemIdex);
+    //console.log(itemsToBuy);
+    itemsToBuy.splice(itemIdex, 1);
   };
 
-  service.getItems = function () {
-    return items;
+  service.getItemsToBuy = function () {
+    // console.log(itemsToBuy.length);
+
+    return itemsToBuy;
+  };
+
+  service.getBoughtItems = function () {
+    //console.log(itemsBought);
+    console.log(itemsBought.length);
+
+    return itemsBought;
+  };
+
+  service.buyItems = function (index, name, quantity) {
+    //console.log(index);
+    service.removeItem(index);
+    service.addItem(name, quantity);
+    //service.getBoughtItems();
+
   };
 }
 
