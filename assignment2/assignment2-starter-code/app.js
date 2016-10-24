@@ -7,111 +7,88 @@ angular.module('shoppingListCheckOff', [])
 .service('ShoppingListCheckOffService', ShoppingListCheckOffService)
 
 ToBuyController.$inject = ['ShoppingListCheckOffService'];
-function ToBuyController(ShoppingListCheckOffService) {
-  var toBuy = this;
-  toBuy.name = "";
-  toBuy.quantity = "";
-  // ShoppingListCheckOffService.addItem("apple", 2);
-  // ShoppingListCheckOffService.addItem("pear", 10);
+  function ToBuyController(ShoppingListCheckOffService) {
+    var toBuy = this;
 
-  toBuy.items = ShoppingListCheckOffService.getItemsToBuy();
+    //populate to buy list
+    toBuy.items = ShoppingListCheckOffService.getItemsToBuy();
 
-  try{
+    //buyitems - moves items from to buy list to bought list
     toBuy.buyItems = function(index, name, quantity){
     ShoppingListCheckOffService.buyItems(index, name, quantity);
-    //console.log(index);
+
     }
-  }catch(error){
-    toBuy.errorMessage = error.message;
-
   }
-  //   showList.removeItem = function (itemIndex) {
-  //   ShoppingListService.removeItem(itemIndex);
-  // };
-
-  // toBuy.addItem = function () {
-  //   ShoppingListService.addItem(toBuy.itemName, toBuy.itemQuantity);
-  // }
-}
 
 AlreadyBoughtController.$inject = ['ShoppingListCheckOffService'];
-function AlreadyBoughtController(ShoppingListCheckOffService) {
-  var bought = this;
+  function AlreadyBoughtController(ShoppingListCheckOffService) {
 
+    var bought = this;
 
+    //poplulate bought list
     bought.items = ShoppingListCheckOffService.getBoughtItems();
-    //console.log(bought.items);
 
-  // console.log(bought.items);
-  // console.log("tt");
+  }
 
-  // bought.items = ShoppingListCheckOffService.getItems();
-  // console.log(bought.items)
-
-  // bought.addItem = function () {
-  //   ShoppingListService.addItem(bought.itemName, bought.itemQuantity);
-  // }
-}
-
+//Begin service
 function ShoppingListCheckOffService() {
-  var service = this;
 
-  var itemsBought = [{}];
-  // List of shopping items
+  var service = this;
+   //to store bought items
+  var itemsBought = [];
+   //to store itmes to buy items
   var itemsToBuy = [{
                 name:"apple",
                 quantity:"1"
               },
               {
                 name:"pear",
-                quantity:"10"
+                quantity:"2"
               },
               {
                 name:"pickle",
-                quantity:"20"
+                quantity:"3"
               },
               {
                 name:"carrot",
-                quantity:"8"
+                quantity:"5"
               },
               {
                 name:"orange",
-                quantity:"12"
+                quantity:"8"
               }
             ];
 
+//adds item to to buy list
   service.addItem = function (itemName, quantity) {
     var item = {
       name: itemName,
       quantity: quantity
     };
+
     itemsBought.push(item);
   };
 
-  service.removeItem = function (itemIdex) {
-    //console.log(itemIdex);
-    //console.log(itemsToBuy);
-    itemsToBuy.splice(itemIdex, 1);
+  //removes item from to buy list
+  service.removeItem = function (itemIndex) {
+
+  itemsToBuy.splice(itemIndex, 1);
   };
 
+  //returns to buy list
   service.getItemsToBuy = function () {
-    // console.log(itemsToBuy.length);
-
     return itemsToBuy;
   };
 
+  //returns  bought list
   service.getBoughtItems = function () {
-    //console.log(itemsBought);
-    console.log(itemsBought.length);
-
     return itemsBought;
   };
 
+//handles bought items - removes from to buy and moves to bought
   service.buyItems = function (index, name, quantity) {
-    //console.log(index);
     service.removeItem(index);
     service.addItem(name, quantity);
-    //service.getBoughtItems();
 
   };
 }
