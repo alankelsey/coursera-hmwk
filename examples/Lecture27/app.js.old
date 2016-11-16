@@ -5,16 +5,29 @@ angular.module('ShoppingListDirectiveApp', [])
 .controller('ShoppingListController1', ShoppingListController1)
 .controller('ShoppingListController2', ShoppingListController2)
 .factory('ShoppingListFactory', ShoppingListFactory)
-.directive('shoppingList', ShoppingList);
+.directive('listItemDescription', ListItemDescription)
+.directive('listItem', ListItem);
 
 
-function ShoppingList() {
+function ListItem() {
   var ddo = {
-    templateUrl: 'shoppingList.html',
-    scope: {
-      list: '=myList',
-      title: '@title'
-    }
+    /*  E restricts to element A restricts to attribute
+    best practice is to use E for element when directive
+    has content along with possible behavior
+      Best prictice is to use A for attribute when directive
+    has no content and only extends the behavior of host element
+    */
+    restrict: "E",
+    templateUrl: 'listItem.html'
+  };
+
+  return ddo;
+}
+
+
+function ListItemDescription() {
+  var ddo = {
+    template: '{{ item.quantity }} of {{ item.name }}'
   };
 
   return ddo;
@@ -30,20 +43,16 @@ function ShoppingListController1(ShoppingListFactory) {
   var shoppingList = ShoppingListFactory();
 
   list.items = shoppingList.getItems();
-  var origTitle = "Shopping List #1";
-  list.title = origTitle + " (" + list.items.length + " items )";
 
   list.itemName = "";
   list.itemQuantity = "";
 
   list.addItem = function () {
     shoppingList.addItem(list.itemName, list.itemQuantity);
-    list.title = origTitle + " (" + list.items.length + " items )";
-  };
+  }
 
   list.removeItem = function (itemIndex) {
     shoppingList.removeItem(itemIndex);
-    list.title = origTitle + " (" + list.items.length + " items )";
   };
 }
 
@@ -68,7 +77,7 @@ function ShoppingListController2(ShoppingListFactory) {
       list.errorMessage = error.message;
     }
 
-  };
+  }
 
   list.removeItem = function (itemIndex) {
     shoppingList.removeItem(itemIndex);
