@@ -5,6 +5,7 @@ angular.module('NarrowItDownApp', [])
 .controller('NarrowItDownController', NarrowItDownController)
 .service('MenuSearchService', MenuSearchService)
 .directive('foundItems', foundItems)
+.constant('ApiBasePath', "http://davids-restaurant.herokuapp.com");
 
 // START DIRECTIVES
 function foundItems() {
@@ -18,7 +19,7 @@ function foundItems() {
 
   return ddo;
   */
-  
+
 }
 
 // Start CONTROLLERS
@@ -46,10 +47,11 @@ NarrowItDownController.$inject = ['MenuSearchService'];
 // HANDLE LIST OF FOUND ITEMS
 
 //Begin OLD service
-function MenuSearchService() {
+MenuCategoriesService.$inject = ['$http', 'ApiBasePath']
+function MenuSearchService($http, ApiBasePath) {
 
   function getMatchedMenuItems(searchTerm){
-
+    var service = this;
     //$http SERVICE TO RETRIEVE A LIST OF ALL MENU items
 
     // LOOP THROUGH LIST AND FIND MATCHES TO THE searchTerm
@@ -59,13 +61,13 @@ function MenuSearchService() {
       //END POINT URL https://davids-restaurant.herokuapp.com/menu_items.json
 
       // process result and only keep items that match
-      var foundItems...
+      var foundItems;
 
       // return processed items
       return foundItems;
     });
 
-  }
+  } //end get matched items
 
 /*
 // // // OLD SERVICE
@@ -129,7 +131,7 @@ function MenuSearchService() {
   };
 */
 
-}
+}  //end service
 
 
 /*
