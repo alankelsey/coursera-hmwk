@@ -4,12 +4,7 @@
 angular.module('NarrowItDownApp', [])
 .controller('NarrowItDownController', NarrowItDownController)
 .service('MenuSearchService', MenuSearchService)
-<<<<<<< HEAD
 .directive('foundItems', FoundItems);
-=======
-.directive('foundItems', foundItems)
-.constant('ApiBasePath', "http://davids-restaurant.herokuapp.com");
->>>>>>> b4bc0a2ce0b537ff923e5f11553a19edb1d1f588
 
 //START DIRECTIVES
 function FoundItems() {
@@ -17,10 +12,6 @@ function FoundItems() {
     template : '{{nid.item}}'
   };
   return ddo;
-<<<<<<< HEAD
-=======
-  */
->>>>>>> b4bc0a2ce0b537ff923e5f11553a19edb1d1f588
 
 }
 
@@ -53,39 +44,11 @@ NarrowItDownController.$inject = ['MenuSearchService'];
 // HANDLE LIST OF FOUND ITEMS
 
 //Begin OLD service
-<<<<<<< HEAD
 //MenuSearchService.$inject = ['$http', 'ApiBasePath'];
 function MenuSearchService() {
-=======
-MenuCategoriesService.$inject = ['$http', 'ApiBasePath']
-function MenuSearchService($http, ApiBasePath) {
-
-  function getMatchedMenuItems(searchTerm){
-    var service = this;
-    //$http SERVICE TO RETRIEVE A LIST OF ALL MENU items
-
-    // LOOP THROUGH LIST AND FIND MATCHES TO THE searchTerm
-
-    //RETURN LIST OF MATCHES WRAPPED IN A PROMISE WITH THEN
-    return $http(...).then(function (result) {
-      //END POINT URL https://davids-restaurant.herokuapp.com/menu_items.json
-
-      // process result and only keep items that match
-      var foundItems;
-
-      // return processed items
-      return foundItems;
-    });
-
-  } //end get matched items
-
-/*
-// // // OLD SERVICE
->>>>>>> b4bc0a2ce0b537ff923e5f11553a19edb1d1f588
   var service = this;
   var num = 2;
   //returns  bought list
-<<<<<<< HEAD
   service.getNum = function () {
     return num;
   }
@@ -188,21 +151,6 @@ function MenuSearchService($http, ApiBasePath) {
 // */
 //
 }
-=======
-  service.getBoughtItems = function () {
-    return itemsBought;
-  };
-
-//handles bought items - removes from to buy and moves to bought
-  service.buyItems = function (index, name, quantity) {
-    service.removeItem(index);
-    service.addItem(name, quantity);
-
-  };
-*/
-
-}  //end service
->>>>>>> b4bc0a2ce0b537ff923e5f11553a19edb1d1f588
 
 
 /*
