@@ -4,6 +4,7 @@
 angular.module('NarrowItDownApp', [])
 .controller('NarrowItDownController', NarrowItDownController)
 .service('MenuSearchService', MenuSearchService)
+.constant('ApiBasePath', "http://davids-restaurant.herokuapp.com")
 .directive('foundItems', FoundItems);
 
 //START DIRECTIVES
@@ -20,8 +21,16 @@ NarrowItDownController.$inject = ['MenuSearchService'];
   function NarrowItDownController(MenuSearchService) {
     var list = this;
     // list.item = {id:1};
-      list.item = MenuSearchService.getNum();
+      //list.item = MenuSearchService.getMenuCategories();
+      //console.log(list.item);
+      var promise = MenuSearchService.getMenuCategories();
 
+      promise.then(function (response) {
+        list.item = response.data;
+      })
+      .catch(function (error) {
+        console.log("Something went terribly wrong.");
+      });
     // HANDLE SEARCH SUBMIT
 
     // HANDLE LIST OF FOUND ITEM
@@ -44,32 +53,43 @@ NarrowItDownController.$inject = ['MenuSearchService'];
 // HANDLE LIST OF FOUND ITEMS
 
 //Begin OLD service
-//MenuSearchService.$inject = ['$http', 'ApiBasePath'];
-function MenuSearchService() {
+MenuSearchService.$inject = ['$http', 'ApiBasePath'];
+function MenuSearchService($http, ApiBasePath) {
   var service = this;
   var num = 2;
   //returns  bought list
   service.getNum = function () {
     return num;
-  }
-//   function getMatchedMenuItems(searchTerm){
-//
-//     //$http SERVICE TO RETRIEVE A LIST OF ALL MENU items
-//
+  };
+
+  service.getMatchedMenuItems = function (searchTerm){
+
+
+};
+
+//$http SERVICE TO RETRIEVE A LIST OF ALL MENU items
+service.getMenuCategories = function () {
+  var response = $http({
+    method: "GET",
+    url: (ApiBasePath + "/categories.json")
+   });
+   console.log("response");
+   console.log(response);
+   return response;
 //     // LOOP THROUGH LIST AND FIND MATCHES TO THE searchTerm
-//
+
 //     //RETURN LIST OF MATCHES WRAPPED IN A PROMISE WITH THEN
 //     //return $http(...).then(function (result) {
 //       //END POINT URL https://davids-restaurant.herokuapp.com/menu_items.json
-//
+
 //       // process result and only keep items that match
 //       //var foundItems...
-//
+
 //       // return processed items
 //       //return foundItems;
 //     //});
-//
-//   }
+
+};
 //
 //
 //   // getMatchedMenuItems(searchTerm){
