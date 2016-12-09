@@ -32,12 +32,16 @@ NarrowItDownController.$inject = ['MenuSearchService'];
       //   console.log("Something went terribly wrong.");
       // });
     // HANDLE SEARCH SUBMIT
+    list.shortName = "";
+    var shortName = list.shortName;
+    console.log(shortName);
     list.logMenuItems = function (shortName) {
-      var promise = MenuSearchService.getMenuCategories(shortName);
+      var promise = MenuSearchService.getMatchedMenuItems(shortName);
       promise.then(function (response) {
         //console.log(response.data);
-        list.item = response.data;
-        console.log(list.item);
+        //list.item = response.data;
+        list.item = response;
+        //console.log(list.item);
       })
       .catch(function (error) {
         console.log(error);
@@ -73,113 +77,32 @@ function MenuSearchService($http, ApiBasePath) {
   };
 
   service.getMatchedMenuItems = function (searchTerm){
+    var response = $http({
+      method: "GET",
+      url: (ApiBasePath + "/categories.json")
+    }).then(function successCallback(response){
+      console.log("found " + searchTerm);
+    var items = response.data;
 
+    for(var i = 0, len = items.length; i  < len; i++){
+      //console.log(items[i].special_instructions);
 
-};
+      if( (items[i].special_instructions).includes(searchTerm) ){
+        console.log(items[i].special_instructions);
+      }
 
-//$http SERVICE TO RETRIEVE A LIST OF ALL MENU items
-service.getMenuCategories = function () {
-  var response = $http({
-    method: "GET",
-    url: (ApiBasePath + "/categories.json")
-   });
-   //console.log("response");
-   //console.log(response);
-   return response;
-//     // LOOP THROUGH LIST AND FIND MATCHES TO THE searchTerm
+    }
+      //console.log("response");
 
-//     //RETURN LIST OF MATCHES WRAPPED IN A PROMISE WITH THEN
-//     //return $http(...).then(function (result) {
-//       //END POINT URL https://davids-restaurant.herokuapp.com/menu_items.json
+    }, function errorCallback(response){
 
-//       // process result and only keep items that match
-//       //var foundItems...
+    });
 
-//       // return processed items
-//       //return foundItems;
-//     //});
+     //console.log(items);
+     return response;
 
-};
-//
-//
-//   // getMatchedMenuItems(searchTerm){
-//   //   //Reaches out to server using $http
-//   //   //then retrieves list of menu items
-//   //   service.getMenuCategories = function () {
-//   //     var response = $http({
-//   //       method: "GET",
-//   //       url: (ApiBasePath + "/categories.json")
-//   //     });
-//   //
-//   //     return response;
-//   //   };
-//   //   //looop through and look for searchTerm
-//   //
-//   //   // return list of matches wrapped in a promise
-//   // }
-//
-// /*
-// // // // OLD SERVICE
-//   var service = this;
-//    //to store bought items
-//   var itemsBought = [];
-//    //to store itmes to buy items
-//   var itemsToBuy = [{
-//                 name:"apple",
-//                 quantity:"1"
-//               },
-//               {
-//                 name:"pear",
-//                 quantity:"2"
-//               },
-//               {
-//                 name:"pickle",
-//                 quantity:"3"
-//               },
-//               {
-//                 name:"carrot",
-//                 quantity:"5"
-//               },
-//               {
-//                 name:"orange",
-//                 quantity:"8"
-//               }
-//             ];
-//
-// //adds item to to buy list
-//   service.addItem = function (itemName, quantity) {
-//     var item = {
-//       name: itemName,
-//       quantity: quantity
-//     };
-//
-//     itemsBought.push(item);
-//   };
-//
-//   //removes item from to buy list
-//   service.removeItem = function (itemIndex) {
-//
-//   itemsToBuy.splice(itemIndex, 1);
-//   };
-//
-//   //returns to buy list
-//   service.getItemsToBuy = function () {
-//     return itemsToBuy;
-//   };
-//
-//   //returns  bought list
-//   service.getBoughtItems = function () {
-//     return itemsBought;
-//   };
-//
-// //handles bought items - removes from to buy and moves to bought
-//   service.buyItems = function (index, name, quantity) {
-//     service.removeItem(index);
-//     service.addItem(name, quantity);
-//
-//   };
-// */
-//
+   };
+
 }
 
 
