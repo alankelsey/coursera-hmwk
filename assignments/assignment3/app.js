@@ -23,16 +23,26 @@ NarrowItDownController.$inject = ['MenuSearchService'];
     // list.item = {id:1};
       //list.item = MenuSearchService.getMenuCategories();
       //console.log(list.item);
-      var promise = MenuSearchService.getMenuCategories();
+      //var promise = MenuSearchService.getMenuCategories();
 
+      // promise.then(function (response) {
+      //   list.item = response.data;
+      // })
+      // .catch(function (error) {
+      //   console.log("Something went terribly wrong.");
+      // });
+    // HANDLE SEARCH SUBMIT
+    list.logMenuItems = function (shortName) {
+      var promise = MenuSearchService.getMenuCategories(shortName);
       promise.then(function (response) {
+        //console.log(response.data);
         list.item = response.data;
+        console.log(list.item);
       })
       .catch(function (error) {
-        console.log("Something went terribly wrong.");
-      });
-    // HANDLE SEARCH SUBMIT
-
+        console.log(error);
+      })
+    };
     // HANDLE LIST OF FOUND ITEM
 
     // CALL getMatchedMenuItems AND store the result in a property called found
@@ -73,8 +83,8 @@ service.getMenuCategories = function () {
     method: "GET",
     url: (ApiBasePath + "/categories.json")
    });
-   console.log("response");
-   console.log(response);
+   //console.log("response");
+   //console.log(response);
    return response;
 //     // LOOP THROUGH LIST AND FIND MATCHES TO THE searchTerm
 
